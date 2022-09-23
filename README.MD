@@ -53,7 +53,7 @@ Then run the following
 > --tags=http-server
 
 You will be prompted to authorize a call to the compute engine api
-Confirm VM instance is running by running 
+Confirm VM instance is running by
 
 > gcloud compute instances describe louzado-web-server1
 
@@ -70,7 +70,7 @@ Install apache2
 
 ## Deploying using terraform
 
-Folder - env/dev/task1
+Folder - env-dev/task1
 
 Please note I have left the instances to accept connections from any source ip for the purposes of this demo only.
 
@@ -155,8 +155,8 @@ Upload HTML file
 Make HTML file public
 Visit Public URL of file
 
-![easy-unsecure](env/images/simple-poc-proof.png)
-![poc-unsecure](env/images/diagram-simple-poc.png)
+![easy-unsecure](env-dev/images/simple-poc-proof.png)
+![poc-unsecure](env-dev/images/diagram-simple-poc.png)
 
 --Commercial proof of concept--
 
