@@ -81,20 +81,20 @@ To ensure my application has high availability, I will be scaling the applicatio
 
 To automate the installation of the web server on each instance, I will be running the below script on startup of the the VM with a custom welcome page. This welcome page will also allow me to hop between instances to ensure the MIG is up and running and also installs the stress tool which will allow us to check it can scale up or down.
 
-  "#! /bin/bash
-  NAME=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
-  ZONE=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | sed 's@.*/@@')
-  sudo apt-get update
-  sudo apt-get install -y stress apache2
-  sudo systemctl start apache2
-  cat <<EOF> /var/www/html/index.html
- #<body style="font-family: sans-serif">
- #<html><body><h1>Hi, My name is Will and this is my Web Server!</h1>
- #<p>This web server is $NAME</p>
- #<p>You are being served from the $ZONE datacenter.</p>
- #<p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3QPqkkg4u1VpCmaa2dxGp4qP-hC-cyz1NeeDpTIqzgyVb-yK9xmYvqd3qA2yjaKgS9g&usqp=CAU" alt="Unicorse"></p>
-#</body></html>
-  EOF
+         #! /bin/bash
+         NAME=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
+         ZONE=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | sed 's@.*/@@')
+         sudo apt-get update
+         sudo apt-get install -y stress apache2
+         sudo systemctl start apache2
+         cat <<EOF> /var/www/html/index.html
+         <body style="font-family: sans-serif">
+        <html><body><h1>Hi, My name is Will and this is my Web Server!</h1>
+        <p>This web server is $NAME</p>
+        <p>You are being served from the $ZONE datacenter.</p>
+        <p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3QPqkkg4u1VpCmaa2dxGp4qP-hC-cyz1NeeDpTIqzgyVb-yK9xmYvqd3qA2yjaKgS9g&usqp=CAU" alt="Unicorse"></p>
+        </body></html>
+         EOF
 
 Numbers 1-4 will be deployed via terraform with the Load Balancer and subsequent testing being done using the console as a live demo.
 
@@ -155,8 +155,8 @@ Upload HTML file
 Make HTML file public
 Visit Public URL of file
 
-![images](simple-poc-proof.png)
-![images](diagram-simple-poc.png)
+![easy-unsecure](images/simple-poc-proof.png)
+![poc-unsecure](images/diagram-simple-poc.png)
 
 --Commercial proof of concept--
 
@@ -177,13 +177,16 @@ Steps:
 2) Create storage bucket with the same name as the domain. i.e. wwwlouzado-cafeco.uk
 
 For high availability, select a multi-regional zone and the location closes to the audience. For this example - EU.
-Standard as the default storage class and uniform access control
+Standard as the default storage class and uniform access control with public access prevention disabled.
 
 3) Upload static content to be hosted in the bucket.
-4) For this example use uniform control to allow public access to the files
+4) Select the bucket and change the permissions, adding an allUsers member and setting the role of Storage Object Viewer.
+5) Add a main index and 404 page i.e. index.html and 404.html using the settings icon on buckets.
+5) Test the website URL in a browser
 
+Diagram
 
-![images](diagram-dev-poc.png)
+![cloudDNS-poc](images/diagram-dev-poc.png)
 
 
 
