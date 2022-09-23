@@ -140,14 +140,14 @@ Assumptions
 - Proof of concept only so no additional network/firewall configuration
 - In all cases, a domain must be purchased to make visible. This can be done on Google Domains. 
 
-# Option 1 - Cloud Storage Bucket
+## Option 1 - Cloud Storage Bucket
 
 Identified Google Cloud Storage and buckets as a solution. 
 As a static website can be composed of simple html, css and JS files, they can be stored in a bucket and made publicly available.
 Low cost
 Fast spin up time
 
---Easy and very unsecure option for Proof of concept--
+## Easy and very unsecure option for Proof of concept--
 
 Create Storage Bucket
 Set fine-grained access control
@@ -156,9 +156,12 @@ Make HTML file public
 Visit Public URL of file
 
 ![easy-unsecure](env-dev/images/simple-poc-proof.png)
+
+
+
 ![poc-unsecure](env-dev/images/diagram-simple-poc.png)
 
---Commercial proof of concept--
+## Commercial proof of concept--
 
 Pre-requisites
 
@@ -189,4 +192,8 @@ Diagram
 ![cloudDNS-poc](env-dev/images/diagram-dev-poc.png)
 
 
+## Option 2 AppEngine
 
+## Pros/Cons
+
+## Decision & Justification
