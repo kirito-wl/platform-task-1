@@ -85,31 +85,42 @@ Please note I have left the instances to accept connections from any source ip f
 
 To ensure my application has high availability, I will be scaling the application using managed instance groups and a load balancer.
 
-To automate the installation of the web server on each instance, I will be running the below script on startup of the the VM with a custom welcome page. This welcome page will also allow me to hop between instances to ensure the MIG is up and running and also installs the stress tool.
+To automate the installation of the web server on each instance, I will be running the below script on startup of the the VM with a custom welcome page. This welcome page will also allow me to hop between instances to ensure the MIG is up and running and also installs the stress tool which will allow us to check it can scale up or down.
 
+  #! /bin/bash
+  NAME=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
+  ZONE=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | sed 's@.*/@@')
+  sudo apt-get update
+  sudo apt-get install -y stress apache2
+  sudo systemctl start apache2
+  cat <<EOF> /var/www/html/index.html
+  <body style="font-family: sans-serif">
+  <html><body><h1>Hi, My name is Will and this is my Web Server!</h1>
+  <p>This web server is $NAME</p>
+  <p>You are being served from the $ZONE datacenter.</p>
+  <p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3QPqkkg4u1VpCmaa2dxGp4qP-hC-cyz1NeeDpTIqzgyVb-yK9xmYvqd3qA2yjaKgS9g&usqp=CAU" alt="Unicorse"></p>
+  </body></html>
+  EOF
 
-    #! /bin/bash
-    NAME=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
-    ZONE=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | sed 's@.*/@@')
-    sudo apt-get update
-    sudo apt-get install -y stress apache2
-    sudo systemctl start apache2
-    cat <<EOF> /var/www/html/index.html
-    <body style="font-family: sans-serif">
-    <html><body><h1>Hi, My name is Will and this is my Web Server!</h1>
-    <p>You  is $NAME</p>
-    <p>It is a pleasure to serve you from the $ZONE datacenter.</p>
-    <p><img> src="https://shorturl.at/LTYZ3" alt="Unicorse"></p>
-    </body></html>
-    EOF
-
-This will be deployed via terraform but the high level steps are described below.
+Numbers 1-4 will be deployed via terraform with the Load Balancer being created manually using the console.
 
 1) Create an Instance Template
 2) Create an Instance Group
 3) Create health checks
 4) Firewall configuration
-4) Create Load Balancer with a new backend 
+4) Create Load Balancer with a new backend
+
+Please note I have left the instances to accept connections from any source ip for  ssh forthe purposes of this demo only.
+
+Now that the load balancer is created I want to check each of the instances created are working by visiting the load balancer external IP.
+
+--insert image--
+
+Pick an instance to SSH into and run the following script
+> stress --cpu 2 --io 1 --vm --vm-bytes 128M --timeout 30s
+
+
+
 5) Verify instances are working by using load balancer external IP.
 6) Stress test the application to ensure it scales out and in depending on load.
 
