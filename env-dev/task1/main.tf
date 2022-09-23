@@ -27,7 +27,7 @@ resource "google_compute_instance" "default" {
      NAME=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
      ZONE=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | sed 's@.*/@@')
      sudo apt-get update
-     sudo apt-get install -y apache2
+     sudo apt-get install -y stress apache2
      sudo systemctl start apache2
      cat <<EOF> /var/www/html/index.html
      <body style="font-family: sans-serif">
