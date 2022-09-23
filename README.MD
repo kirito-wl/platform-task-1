@@ -38,6 +38,7 @@ After logging in, I run the following in the CLI
 
 After exit out of the SSH and click the external IP to test the web server is running.
 
+#Service account created individually away from the default compute service account
 
 ![SDK deployment](images/gui-confirmation.png)
 
