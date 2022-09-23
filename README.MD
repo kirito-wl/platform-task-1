@@ -155,8 +155,8 @@ Upload HTML file
 Make HTML file public
 Visit Public URL of file
 
-![easy-unsecure](images/simple-poc-proof.png)
-![poc-unsecure](images/diagram-simple-poc.png)
+![easy-unsecure](env/images/simple-poc-proof.png)
+![poc-unsecure](env/images/diagram-simple-poc.png)
 
 --Commercial proof of concept--
 
@@ -186,7 +186,7 @@ Standard as the default storage class and uniform access control with public acc
 
 Diagram
 
-![cloudDNS-poc](images/diagram-dev-poc.png)
+![cloudDNS-poc](env-dev/images/diagram-dev-poc.png)
 
 
 
