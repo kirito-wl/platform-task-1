@@ -27,7 +27,21 @@ resource "google_compute_instance_template" "louzado-template" {
   tags         = ["http-server"]
 
   metadata = {
-    startup-script = "#! /bin/bash\nNAME=$(curl -H \"Metadata-Flavor: Google\" http://metadata.google.internal/computeMetadata/v1/instance/name)\nZONE=$(curl -H \"Metadata-Flavor: Google\" http://metadata.google.internal/computeMetadata/v1/instance/zone | sed 's@.*/@@')\nsudo apt-get update\nsudo apt-get install -y stress apache2\nsudo systemctl start apache2\ncat <<EOF> /var/www/html/index.html\n<body style=\"font-family: sans-serif\">\n<html><body><h1>Hi, My name is Will and this is my Web Server!</h1>\n<p>This web server is $NAME</p>\n<p>You are being served from the $ZONE datacenter.</p>\n<p><img src=\"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3QPqkkg4u1VpCmaa2dxGp4qP-hC-cyz1NeeDpTIqzgyVb-yK9xmYvqd3qA2yjaKgS9g\u0026usqp=CAU\" alt=\"Unicorse\"></p>\n</body></html>\nEOF"
+    startup-script = <<SCRIPT
+     NAME=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/name)
+     ZONE=$(curl -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | sed 's@.*/@@')
+     sudo apt-get update
+     sudo apt-get install -y stress apache2
+     sudo systemctl start apache2
+     cat <<EOF> /var/www/html/index.html
+     <body style="font-family: sans-serif">
+     <html><body><h1>Hi, My name is Will and this is my Web Server!</h1>
+     <p>This web server is $NAME</p>
+     <p>You are being served from the $ZONE datacenter.</p>
+     <p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3QPqkkg4u1VpCmaa2dxGp4qP-hC-cyz1NeeDpTIqzgyVb-yK9xmYvqd3qA2yjaKgS9g&usqp=CAU" alt="Unicorse"></p>
+     </body></html>
+     <EOF>
+     SCRIPT
   }
 
   name = "louzado-template"
