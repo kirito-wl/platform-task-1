@@ -198,7 +198,7 @@ Deploy the app
 
 ## Pros/Cons
 
-# # Cloud Storgae
+### Cloud Storgae
 
 Pros 
 
@@ -213,7 +213,7 @@ Single file at a time being served
 Needs load balancer for HTTPS
 More expensive than other Google Cloud options
 
-# # AppEngine
+### AppEngine
 
 Pros 
 
