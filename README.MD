@@ -198,7 +198,7 @@ Deploy the app
 
 ## Pros/Cons
 
-### Cloud Storgae
+### Cloud Storage
 
 Pros 
 
